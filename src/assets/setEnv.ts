@@ -52,7 +52,7 @@ const environmentFileContent = `
     firebaseConfig: ${process.env.FIREBASE_CONFIG}
   };
 `;
-
+console.log(JSON.stringify(environmentFileContent));
 writeFileUsingFS(targetPath, environmentFileContent); // appending data into the target file
 
 /* tslint:enable */
