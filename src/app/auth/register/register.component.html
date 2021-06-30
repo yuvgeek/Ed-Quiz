@@ -1,0 +1,57 @@
+<div class="register-container bg-white">
+  <p class="fs-2">Register</p>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="
+      register(form.controls.email.value, form.controls.password.value)
+    "
+  >
+    <p>
+      <mat-form-field>
+        <input
+          type="email"
+          matInput
+          placeholder="Email"
+          formControlName="email"
+          required
+        />
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <input
+          type="password"
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          required
+        />
+      </mat-form-field>
+    </p>
+
+    <p *ngIf="error" class="error">
+      {{ error }}
+    </p>
+
+    <button
+      class="button"
+      [disabled]="error ? true : !form.valid"
+      mat-raised-button
+      color="primary"
+    >
+      Register
+    </button>
+
+    <div class="mt-3 text-center">
+      <span
+        >Already have an account?<a
+          class="text-decoration-none"
+          routerLink="/auth/login"
+        >
+          Login</a
+        ></span
+      >
+    </div>
+  </form>
+</div>

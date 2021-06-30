@@ -1,0 +1,64 @@
+<div class="dashboard">
+  <div class="row p-3 pt-3">
+    <h2 class="pb-3 cursor-pointer" (click)="navigateToDashboard()">
+      Dashboard
+    </h2>
+    <ng-container *ngIf="stats$ | async as stats">
+      <div class="col-md-4 cursor-pointer">
+        <mat-card
+          class="card-stats"
+          routerLinkActive="dashboard-section-active"
+          routerLink="students"
+        >
+          <mat-card-header>
+            <mat-card-title>Students ({{stats.studentsCount}})</mat-card-title>
+            <mat-card-subtitle>List of students taking part</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </div>
+      <div class="col-md-4 cursor-pointer">
+        <mat-card
+          class="card-stats"
+          routerLinkActive="dashboard-section-active"
+          routerLink="standards"
+        >
+          <mat-card-header>
+            <mat-card-title>Standards ({{stats.standardsCount}})</mat-card-title>
+            <mat-card-subtitle>List of standards covering</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </div>
+      <div class="col-md-4 cursor-pointer">
+        <mat-card
+          class="card-stats"
+          routerLinkActive="dashboard-section-active"
+          routerLink="quiz"
+        >
+          <mat-card-header>
+            <mat-card-title>Quiz ({{stats.quizCount}})</mat-card-title>
+            <mat-card-subtitle
+              >List of quiz available for students</mat-card-subtitle
+            >
+          </mat-card-header>
+        </mat-card>
+      </div>
+    </ng-container>
+  </div>
+
+  <mat-divider></mat-divider>
+  <div class="m-3">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<div
+  *ngIf="loading"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+  "
+>
+  <mat-progress-spinner mode="indeterminate"> </mat-progress-spinner>
+</div>

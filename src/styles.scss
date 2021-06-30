@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+@import url(https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css);
+@import "~ngx-sharebuttons/themes/default/default-theme";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  // font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.md-fab-bottom-right {
+  position: fixed !important;
+  right: 15px; /* Add this and change value to set the margin you want */
+  bottom: 15px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+

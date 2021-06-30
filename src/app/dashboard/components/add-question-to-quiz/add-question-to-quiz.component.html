@@ -1,0 +1,54 @@
+<div>
+  <h1 mat-dialog-title>Add Question</h1>
+  <div mat-dialog-content>
+    <div>
+      <form [formGroup]="form">
+        <mat-form-field>
+          <textarea
+            type="text"
+            matInput
+            placeholder="Type your question"
+            formControlName="question"
+            required
+          ></textarea>
+        </mat-form-field>
+
+        <div
+          formArrayName="options"
+          *ngFor="let item of options.controls; let i = index"
+        >
+          <div [formGroupName]="i" class="d-flex align-items-baseline">
+            <mat-radio-group name="selected" formControlName="selected" (change)="updateOptionSelectStatus(i)">
+              <mat-radio-button [value]="true"> </mat-radio-button>
+            </mat-radio-group>
+
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="Option {{ i + 1 }}"
+                formControlName="name"
+                required
+              />
+            </mat-form-field>
+            <button mat-button color="primary" (click)="deleteOption(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div align="end">
+          <button mat-button (click)="addOption()">
+            <mat-icon>add</mat-icon>Add Option
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>CLOSE</button>
+    <button mat-button color="primary" (click)="addNewQuestToQuiz()">
+      ADD
+    </button>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div>
+<h1 mat-dialog-title>Add Standard</h1>
+<div mat-dialog-content>
+    <div>
+        <form [formGroup]="form">
+            <p>
+                <mat-form-field>
+                    <input type="text" matInput placeholder="Name" formControlName="name" required>
+                </mat-form-field>
+            </p>
+    
+            <!-- <button class="button" mat-raised-button color="primary">ADD</button> -->
+    
+        </form>
+    </div></div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button color="primary" (click)="addNewStandard(form.controls.name.value)">Add</button>
+
+</div>
+</div>

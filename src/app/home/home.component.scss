@@ -1,0 +1,9 @@
+@media (max-width: 700px) {
+  .home-content {
+    flex-direction: column !important;
+    .process {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

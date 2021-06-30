@@ -1,0 +1,30 @@
+<div>
+    <h1 mat-dialog-title>Add Student</h1>
+    <div mat-dialog-content>
+        <div>
+            <form [formGroup]="form">
+
+                <p>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Select the standard</mat-label>
+                        <mat-select formControlName="standard" required>
+                          <mat-option [value]="option.id" *ngFor="let option of this.standards$ | async">{{option.name}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="Name" formControlName="name" required>
+                    </mat-form-field>
+                </p>
+                
+            </form>
+        </div></div>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close>Close</button>
+      <button mat-button color="primary" (click)="addNewStudent(form.controls.standard.value, form.controls.name.value)">Add</button>
+    
+    </div>
+    </div>
+    

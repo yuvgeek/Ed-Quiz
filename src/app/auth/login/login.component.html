@@ -1,0 +1,54 @@
+<div class="login-container bg-white">
+  <p class="fs-2">Login</p>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="login(form.controls.email.value, form.controls.password.value)"
+  >
+    <p>
+      <mat-form-field>
+        <input
+          type="email"
+          matInput
+          placeholder="Email"
+          formControlName="email"
+          required
+        />
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <input
+          type="password"
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          required
+        />
+      </mat-form-field>
+    </p>
+
+    <p *ngIf="error" class="error">
+      {{ error }}
+    </p>
+
+    <button
+      class="button"
+      [disabled]="error ? true : !form.valid"
+      mat-raised-button
+      color="primary"
+    >
+      Login
+    </button>
+    <div class="mt-3 text-center">
+      <span
+        >Don't have an account?<a
+          class="text-decoration-none"
+          routerLink="/auth/register"
+        >
+          Register</a
+        ></span
+      >
+    </div>
+  </form>
+</div>

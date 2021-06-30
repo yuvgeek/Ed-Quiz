@@ -1,0 +1,87 @@
+<ng-container *ngIf="!isQuizAttended; else quizAttendedTemplate">
+  <ng-container *ngIf="quizDetails$ | async as quizDetails">
+    <div
+      class="
+        d-flex
+        flex-column
+        justify-content-center
+        align-items-center
+        attend
+        p-3
+      "
+    >
+      <h2>Welcome {{ quizDetails.studentInfo[0].name }}</h2>
+
+      <p>
+        You are attending a quiz about
+        <strong>{{ quizDetails.name }}</strong
+        >!
+      </p>
+      <p><strong>Subject:</strong> {{ quizDetails.subject }}</p>
+      <p><strong>Description</strong>: {{ quizDetails.description }}</p>
+    </div>
+    <div class="questions d-flex flex-column p-3">
+      <h4 class="mt-2">Questions</h4>
+
+      <mat-card
+        *ngFor="let question of quizDetails.questions; index as i"
+        class="mt-3"
+      >
+        <mat-card-header>
+          <mat-card-title>{{ i + 1 }}.{{ question.question }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content class="mx-2">
+          <mat-radio-group
+            [name]="question.id"
+            class="d-flex flex-column"
+            [(ngModel)]="answeredQuestion[i]"
+          >
+            <mat-radio-button
+              class="m-1"
+              *ngFor="let option of question.options"
+              [value]="option.name"
+              >{{ option.name }}</mat-radio-button
+            >
+          </mat-radio-group>
+        </mat-card-content>
+      </mat-card>
+
+      <button
+        class="button mt-3"
+        mat-raised-button
+        color="primary"
+        [disabled]="answeredQuestion?.length !== quizDetails.questions?.length"
+        (click)="submitQuiz(quizDetails.questions)"
+      >
+        SUBMIT
+      </button>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #showScoreTemplate let-data>
+  <div>
+    <h1 mat-dialog-title>Result</h1>
+    <div mat-dialog-content>
+      <div>
+        <h3>Thanks for attending the Quiz!</h3>
+        <p>
+          You have score <strong>{{ data.scoredMark }}</strong> mark out of
+          <strong>{{ data.totalQuestion }}</strong
+          >.
+        </p>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close>CLOSE</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #quizAttendedTemplate>
+  <p class="d-flex justify-content-center
+  align-items-center p-3 mt-5">
+    You have attended the Quiz. Please close the browser and keep studying!
+  </p>
+</ng-template>

@@ -1,0 +1,65 @@
+<h4 class="py-3">Standards</h4>
+
+<button
+  mat-fab
+  class="md-fab-bottom-right"
+  color="accent"
+  (click)="addStandard()"
+>
+  <mat-icon>add</mat-icon>
+</button>
+
+<button
+  class="button add-standard"
+  mat-raised-button
+  color="primary"
+  (click)="addStandard()"
+>
+  <mat-icon>add</mat-icon>Add Standard
+</button>
+
+<table
+  mat-table
+  [dataSource]="dataSource$ | async"
+  class="mat-elevation-z8 w-100"
+  fixedLayout="true"
+>
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef>No.</th>
+    <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
+      <!-- <button
+        mat-icon-button
+        color="primary"
+        (click)="deleteStandard(element.id)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button> -->
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<div
+  *ngIf="isLoading"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+  "
+>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>

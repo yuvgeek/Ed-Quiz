@@ -1,0 +1,161 @@
+<h4 class="py-3">Quiz</h4>
+
+<div class="d-flex just justify-content-start">
+  <button
+    class="button add-quiz"
+    mat-raised-button
+    color="primary"
+    (click)="addQuiz()"
+  >
+    <mat-icon>add</mat-icon>Add Quiz
+  </button>
+</div>
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="d-flex flex-column">
+        <div
+          class="col-md-4 mt-4 cursor-pointer w-100"
+          routerLinkActive="quiz-active"
+          [routerLink]="[quiz.id]"
+          *ngFor="let quiz of quizList$ | async"
+        >
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ quiz.name }}</mat-card-title>
+              <mat-card-subtitle
+                >{{ quiz.subject }} - 10 questions</mat-card-subtitle
+              >
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                {{ quiz.description }}
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button>EDIT</button>
+              <button mat-button (click)="shareQuiz(quiz.id)">
+                SHARE QUIZ
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 p-3 mt-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<ng-template #addQuizTemplate>
+  <div>
+    <h1 mat-dialog-title>Add Quiz</h1>
+    <div mat-dialog-content>
+      <div>
+        <form [formGroup]="form">
+          <p>
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="Name"
+                formControlName="name"
+                required
+              />
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="Subject"
+                formControlName="subject"
+                required
+              />
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <textarea
+                type="text"
+                matInput
+                placeholder="Description"
+                formControlName="description"
+                required
+              ></textarea>
+            </mat-form-field>
+          </p>
+        </form>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close>CLOSE</button>
+      <button
+        mat-button
+        color="primary"
+        (click)="
+          addNewQuiz(
+            form.controls.name.value,
+            form.controls.subject.value,
+            form.controls.description.value
+          )
+        "
+      >
+        ADD
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<div
+  *ngIf="isLoading"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+  "
+>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<ng-template #shareQuizTemplate let-data>
+  <div>
+    <h1 mat-dialog-title>Share Quiz</h1>
+    <div mat-dialog-content>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Select the standard</mat-label>
+          <mat-select
+            [(value)]="selectedStandard"
+            (valueChange)="standardSelectedChange()"
+          >
+            <mat-option
+              [value]="option.id"
+              *ngFor="let option of standards$ | async"
+              >{{ option.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" *ngIf="selectedStandard">
+          <mat-label>Students</mat-label>
+          <mat-select [(ngModel)]="selectedStudent">
+            <mat-option *ngFor="let student of students$ | async" [value]="student.id">{{
+              student.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <share-buttons *ngIf="selectedStudent" [url]="getShareURL(data.quizId)"></share-buttons>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close>CLOSE</button>
+    </div>
+  </div>
+</ng-template>
