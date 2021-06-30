@@ -49,7 +49,7 @@ const environmentFileContent = `
     HARPER_DB_HOST: '${process.env.HARPER_DB_HOST}',
     HARPER_DB_USERNAME: '${process.env.HARPER_DB_USERNAME}',
     HARPER_DB_PASSWORD: '${process.env.HARPER_DB_PASSWORD}',
-    firebaseConfig: '${process.env.FIREBASE_CONFIG}'
+    firebaseConfig: ${process.env.FIREBASE_CONFIG}
   };
 `;
 
