@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { DashboardService } from 'src/app/services/dashboard.service';
 import { StandardsService } from 'src/app/services/standards.service';
 import { StudentsService } from 'src/app/services/students.service';
 import { AddStandardComponent } from '../add-standard/add-standard.component';
@@ -23,7 +24,8 @@ export class AddStudentComponent implements OnInit {
 
   constructor(private standardsService: StandardsService,
     public dialogRef: MatDialogRef<AddStandardComponent>,
-    private studentsService: StudentsService
+    private studentsService: StudentsService,
+    private dashboardService: DashboardService
   ) { }
 
   ngOnInit(): void {
@@ -32,7 +34,9 @@ export class AddStudentComponent implements OnInit {
 
   addNewStudent(standard: string, name: string) {
     this.dialogRef.close();
-    this.studentsService.createNewStudent(standard, name).subscribe()
+    this.studentsService.createNewStudent(standard, name).subscribe(
+      () => this.dashboardService.refreshStats.next(true)
+    )
 
   }
 

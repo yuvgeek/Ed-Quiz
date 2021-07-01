@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
+import { DashboardService } from 'src/app/services/dashboard.service';
 import { QuizService } from 'src/app/services/quiz.service';
 import { StandardsService } from 'src/app/services/standards.service';
 import { StudentsService } from 'src/app/services/students.service';
@@ -39,7 +40,8 @@ export class QuizComponent implements OnInit {
     public dialog: MatDialog,
     private quizService: QuizService,
     private standardsService: StandardsService,
-    private studentsService: StudentsService
+    private studentsService: StudentsService,
+    private dashboardService: DashboardService
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +66,7 @@ export class QuizComponent implements OnInit {
     this.quizService.createNewQuiz(name, subject, description).subscribe(() => {
       this.dialogRef.close();
       this.refreshData$.next(new Date());
+      this.dashboardService.refreshStats.next(true);
     });
   }
 

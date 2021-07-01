@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -7,6 +8,10 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class DashboardService {
+
+  public refreshStats = new BehaviorSubject<boolean>(true);
+  public refreshStats$ = this.refreshStats.asObservable();
+
   constructor(private http: HttpClient) {}
 
   getStudentsCount(userId: string) {

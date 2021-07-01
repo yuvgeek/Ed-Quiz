@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
-import { first, map, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { DashboardService } from 'src/app/services/dashboard.service';
 
@@ -22,19 +22,30 @@ export class DashboardComponent implements OnInit {
 
   stats$ = new Observable<any>();
   ngOnInit(): void {
-    this.stats$ = combineLatest([
-      this.dashboardService.getStudentsCount(this.authService.userDetails.uid),
-      this.dashboardService.getStandardsCount(this.authService.userDetails.uid),
-      this.dashboardService.getQuizCount(this.authService.userDetails.uid),
-    ]).pipe(
-      first(),
-      map(([studentsCount, standardsCount, quizCount]) => ({
-        studentsCount,
-        standardsCount,
-        quizCount,
-      })),
-      tap(() => (this.loading = false))
-    );
+    this.stats$ = this.dashboardService.refreshStats$
+      .pipe(
+        switchMap(() =>
+          combineLatest([
+            this.dashboardService.getStudentsCount(
+              this.authService.userDetails.uid
+            ),
+            this.dashboardService.getStandardsCount(
+              this.authService.userDetails.uid
+            ),
+            this.dashboardService.getQuizCount(
+              this.authService.userDetails.uid
+            ),
+          ])
+        )
+      )
+      .pipe(
+        map(([studentsCount, standardsCount, quizCount]) => ({
+          studentsCount,
+          standardsCount,
+          quizCount,
+        })),
+        tap(() => (this.loading = false))
+      );
   }
 
   navigateTo(section: string) {
